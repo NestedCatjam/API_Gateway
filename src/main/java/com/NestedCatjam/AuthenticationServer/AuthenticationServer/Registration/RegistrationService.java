@@ -7,6 +7,7 @@ import com.NestedCatjam.AuthenticationServer.AuthenticationServer.Registration.t
 import com.NestedCatjam.AuthenticationServer.AuthenticationServer.Repository.UserRepository;
 import com.NestedCatjam.AuthenticationServer.AuthenticationServer.Entity.UserService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,7 @@ public class RegistrationService {
     private final EmailSender emailSender;
     private UserRepository repository;
     public String register(RegistrationRequest request) {
-        boolean isValidEmail = emailValidator.test(request.getEmail());
+        boolean isValidEmail = emailValidator.isValid(request.getEmail());
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
