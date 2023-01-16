@@ -18,15 +18,11 @@ import java.time.LocalDateTime;
 public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
 
-    private EmailValidator emailValidator;
+
     private final UserService userService;
     private final EmailSender emailSender;
     private UserRepository repository;
     public String register(RegistrationRequest request) {
-        boolean isValidEmail = emailValidator.isValid(request.getEmail());
-        if (!isValidEmail) {
-            throw new IllegalStateException("email not valid");
-        }
         String token = userService.signUpUser(new AppUser(request.getFirstName(), request.getLastName(),
                 request.getEmail(), request.getPassword()));
         String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
